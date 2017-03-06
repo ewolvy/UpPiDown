@@ -22,6 +22,8 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
+import com.mooo.ewolvy.uppidown.AARemotes.*;
+
 class SSLServer {
     // Constants
     static private final String LOG_TAG = "SSLServer";
@@ -32,7 +34,7 @@ class SSLServer {
     private String username;
     private String password;
     private String codeToSend;
-    private AAState currentAAState;
+    private AASuper currentAAState;
     private ImageView onOffSign;
 
     // Constructor
@@ -103,7 +105,7 @@ class SSLServer {
         return output.toString();
     }
 
-    void sendCode(String code, Context context, AAState aaState, ImageView iv){
+    void sendCode(String code, Context context, AASuper aaState, ImageView iv){
         codeToSend = code;
         doConnection connection = new doConnection();
         connection.execute(context);

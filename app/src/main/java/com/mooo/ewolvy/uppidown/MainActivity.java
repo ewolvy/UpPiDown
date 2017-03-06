@@ -12,10 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Objects;
+import com.mooo.ewolvy.uppidown.AARemotes.*;
 
 public class MainActivity extends AppCompatActivity{
 
-    AAState state;
+    AASuper state;
     SSLServer myServer;
 
     @Override
@@ -36,9 +37,9 @@ public class MainActivity extends AppCompatActivity{
             port = 0;
         }
 
-        // Create AAState object to manage the AA
-        state = new AAState(AAState.AUTO_MODE,          // Modo automático
-                AAState.AUTO_FAN,                       // Ventilador automático
+        // Create AAKaysun object to manage the AA
+        state = new AAKaysun(AASuper.AUTO_MODE,          // Modo automático
+                AASuper.AUTO_FAN,                       // Ventilador automático
                 27);                                    // 27 grados
 
         // If preferences are not set ask the user to set them, else create the SSLServer object to manage it
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity{
     public void modeClick(View view) {
         TextView modeView;
         switch (state.getMode()){
-            case AAState.AUTO_MODE:
+            case AASuper.AUTO_MODE:
                 modeView = (TextView) findViewById(R.id.autoMode);
                 if (modeView != null) {
                     modeView.setVisibility(View.INVISIBLE);
@@ -79,11 +80,11 @@ public class MainActivity extends AppCompatActivity{
                 modeView = (TextView) findViewById(R.id.coolMode);
                 if (modeView != null) {
                     modeView.setVisibility(View.VISIBLE);
-                    state.setMode(AAState.COOL_MODE);
+                    state.setMode(AASuper.COOL_MODE);
                 }
                 break;
 
-            case AAState.COOL_MODE:
+            case AASuper.COOL_MODE:
                 modeView = (TextView) findViewById(R.id.coolMode);
                 if (modeView != null) {
                     modeView.setVisibility(View.INVISIBLE);
@@ -91,11 +92,11 @@ public class MainActivity extends AppCompatActivity{
                 modeView = (TextView) findViewById(R.id.dryMode);
                 if (modeView != null) {
                     modeView.setVisibility(View.VISIBLE);
-                    state.setMode(AAState.DRY_MODE);
+                    state.setMode(AASuper.DRY_MODE);
                 }
                 break;
 
-            case AAState.DRY_MODE:
+            case AASuper.DRY_MODE:
                 modeView = (TextView) findViewById(R.id.dryMode);
                 if (modeView != null) {
                     modeView.setVisibility(View.INVISIBLE);
@@ -103,11 +104,11 @@ public class MainActivity extends AppCompatActivity{
                 modeView = (TextView) findViewById(R.id.heatMode);
                 if (modeView != null) {
                     modeView.setVisibility(View.VISIBLE);
-                    state.setMode(AAState.HEAT_MODE);
+                    state.setMode(AASuper.HEAT_MODE);
                 }
                 break;
 
-            case AAState.HEAT_MODE:
+            case AASuper.HEAT_MODE:
                 modeView = (TextView) findViewById(R.id.heatMode);
                 if (modeView != null) {
                     modeView.setVisibility(View.INVISIBLE);
@@ -115,11 +116,11 @@ public class MainActivity extends AppCompatActivity{
                 modeView = (TextView) findViewById(R.id.fanMode);
                 if (modeView != null) {
                     modeView.setVisibility(View.VISIBLE);
-                    state.setMode(AAState.FAN_MODE);
+                    state.setMode(AASuper.FAN_MODE);
                 }
                 break;
 
-            case AAState.FAN_MODE:
+            case AASuper.FAN_MODE:
                 modeView = (TextView) findViewById(R.id.fanMode);
                 if (modeView != null) {
                     modeView.setVisibility(View.INVISIBLE);
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity{
                 modeView = (TextView) findViewById(R.id.autoMode);
                 if (modeView != null) {
                     modeView.setVisibility(View.VISIBLE);
-                    state.setMode(AAState.AUTO_MODE);
+                    state.setMode(AASuper.AUTO_MODE);
                 }
                 break;
         }
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity{
         if (!state.isActiveFan()){return;}
         TextView fanView;
         switch (state.getFan()) {
-            case AAState.AUTO_FAN:
+            case AASuper.AUTO_FAN:
                 fanView = (TextView) findViewById(R.id.fanLevelAuto);
                 if (fanView != null) {
                     fanView.setVisibility(View.INVISIBLE);
@@ -145,27 +146,27 @@ public class MainActivity extends AppCompatActivity{
                 fanView = (TextView) findViewById(R.id.fanLevel1);
                 if (fanView != null) {
                     fanView.setVisibility(View.VISIBLE);
-                    state.setFan(AAState.LEVEL1_FAN);
+                    state.setFan(AASuper.LEVEL1_FAN);
                 }
                 break;
 
-            case AAState.LEVEL1_FAN:
+            case AASuper.LEVEL1_FAN:
                 fanView = (TextView) findViewById(R.id.fanLevel2);
                 if (fanView != null) {
                     fanView.setVisibility(View.VISIBLE);
-                    state.setFan(AAState.LEVEL2_FAN);
+                    state.setFan(AASuper.LEVEL2_FAN);
                 }
                 break;
 
-            case AAState.LEVEL2_FAN:
+            case AASuper.LEVEL2_FAN:
                 fanView = (TextView) findViewById(R.id.fanLevel3);
                 if (fanView != null) {
                     fanView.setVisibility(View.VISIBLE);
-                    state.setFan(AAState.LEVEL3_FAN);
+                    state.setFan(AASuper.LEVEL3_FAN);
                 }
                 break;
 
-            case AAState.LEVEL3_FAN:
+            case AASuper.LEVEL3_FAN:
                 fanView = (TextView) findViewById(R.id.fanLevel1);
                 if (fanView != null) {
                     fanView.setVisibility(View.INVISIBLE);
@@ -181,14 +182,14 @@ public class MainActivity extends AppCompatActivity{
                 fanView = (TextView) findViewById(R.id.fanLevelAuto);
                 if (fanView != null) {
                     fanView.setVisibility(View.VISIBLE);
-                    state.setFan(AAState.AUTO_FAN);
+                    state.setFan(AASuper.AUTO_FAN);
                 }
                 break;
         }
     }
 
     public void tempMinusClick(View view) {
-        if (state.getCurrentTemp() > AAState.TEMP_MIN && state.isActiveTemp()){
+        if (state.getCurrentTemp() > state.TEMP_MIN && state.isActiveTemp()){
             state.setMinusTemp();
             TextView tempView = (TextView) findViewById(R.id.tempView);
             String temperature = Integer.toString(state.getCurrentTemp());
@@ -197,7 +198,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void tempPlusClick(View view) {
-        if (state.getCurrentTemp() < AAState.TEMP_MAX && state.isActiveTemp()){
+        if (state.getCurrentTemp() < state.TEMP_MAX && state.isActiveTemp()){
             state.setPlusTemp();
             TextView tempView = (TextView) findViewById(R.id.tempView);
             String temperature = Integer.toString(state.getCurrentTemp());
