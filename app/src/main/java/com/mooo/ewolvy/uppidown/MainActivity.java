@@ -14,8 +14,6 @@ import android.widget.Toast;
 import java.util.Objects;
 import com.mooo.ewolvy.uppidown.AARemotes.*;
 
-import static com.mooo.ewolvy.uppidown.R.string.dry;
-
 public class MainActivity extends AppCompatActivity{
 
     AASuper state;
@@ -26,7 +24,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Read the preferences, if exists
+        // Read the preferences or set default parameters
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String address = sharedPrefs.getString(getString(R.string.settings_address_key), "");
         String port_str = sharedPrefs.getString(getString(R.string.settings_port_key), "0");
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity{
         }
 
         // Create AAKaysun object to manage the AA
-        state = new AAKaysun(AASuper.AUTO_MODE,          // Modo automático
+        state = new AAKaysun(AASuper.AUTO_MODE,         // Modo automático
                 AASuper.AUTO_FAN,                       // Ventilador automático
                 27);                                    // 27 grados
 
@@ -232,8 +230,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void sendClick(View view) {
-        if (myServer != null){
-            // Send the selected command.
+        if (myServer != null){      // If the options were set, send the command, else ask the user to fullfill the settings
             myServer.sendCode (state.getCommand(), getApplicationContext(), state, (ImageView) findViewById(R.id.onOffSign));
         }else{
             Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
@@ -242,9 +239,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void swingClick(View view) {
-        if (state.getIsOn()) {
-            if (myServer != null){
-                // Send swing code, no ImageView needed (only for PowerOff / Send)
+        if (state.getIsOn()) {      // If the system is on check to send command, else warn the user to switch on before activating / deactivating swing
+            if (myServer != null){  // If the options were set, send the swing command, else ask the user to fullfill the settings
                 myServer.sendCode (state.getSwing(), getApplicationContext(), state, null);
             }else{
                 Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
