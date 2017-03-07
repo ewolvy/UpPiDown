@@ -21,7 +21,9 @@ public class AAKaysun extends AASuper {
 
         TEMP_MIN = 17;
         TEMP_MAX = 30;
-        SPECIAL_TEMP = 31; // DEBE SER TEMP_MAX + 1
+
+        // Indicar que todos los modos están disponibles
+        for (int x = 0; x<5; x++){AVAILABLE_MODES[x] = true;}
 
         if (!setMode(stateMode)){
             setMode (AUTO_MODE);
@@ -44,6 +46,7 @@ public class AAKaysun extends AASuper {
 
     public String getCommand (){
         String command = INIT_CHAIN;
+
         if (isActiveFan()) {
             command = command + FAN_MODES[currentFan];
             command = command + "F";
@@ -55,17 +58,19 @@ public class AAKaysun extends AASuper {
             command = command + REVERSE_FAN_MODES[SPECIAL_FAN];
             command = command + "0";
         }
+
         if (isActiveTemp()) {
             command = command + TEMPS[currentTemp - TEMP_MIN];
             command = command + MODES[currentMode];
             command = command + REVERSE_TEMPS[currentTemp - TEMP_MIN];
             command = command + REVERSE_MODES[currentMode];
         }else{
-            command = command + TEMPS[SPECIAL_TEMP];
+            command = command + TEMPS[TEMP_MAX + 1];
             command = command + MODES[currentMode];
-            command = command + REVERSE_TEMPS[SPECIAL_TEMP];
+            command = command + REVERSE_TEMPS[TEMP_MAX + 1];
             command = command + REVERSE_MODES[currentMode];
         }
+
         return command;
     }
 

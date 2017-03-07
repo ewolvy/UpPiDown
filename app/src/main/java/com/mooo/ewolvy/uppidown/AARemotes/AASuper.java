@@ -1,5 +1,7 @@
 package com.mooo.ewolvy.uppidown.AARemotes;
 
+import static com.mooo.ewolvy.uppidown.R.string.auto;
+
 public abstract class AASuper {
     // Constants
     public static final int AUTO_MODE = 0;
@@ -7,6 +9,7 @@ public abstract class AASuper {
     public static final int DRY_MODE = 2;
     public static final int HEAT_MODE = 3;
     public static final int FAN_MODE = 4;
+    public static final int NONEXSISTING_MODE = 99;
 
     public static final int AUTO_FAN = 0;
     public static final int LEVEL1_FAN = 1;
@@ -16,7 +19,7 @@ public abstract class AASuper {
 
     public int TEMP_MIN;
     public int TEMP_MAX;
-    int SPECIAL_TEMP; // DEBE SER TEMP_MAX + 1
+    boolean AVAILABLE_MODES[] = new boolean[5];
 
     // Variables
     boolean isOn;
@@ -89,6 +92,31 @@ public abstract class AASuper {
         }else{
             return false;
         }
+    }
+
+    // Know next mode available
+    public int getNextMode(int fromMode){
+        int nextMode;
+        switch (fromMode) {
+            case AUTO_MODE:
+            case COOL_MODE:
+            case DRY_MODE:
+            case HEAT_MODE:
+                nextMode = fromMode + 1;
+                if (!AVAILABLE_MODES[nextMode]){
+                    nextMode = getNextMode(nextMode);
+                }
+                break;
+            case FAN_MODE:
+                nextMode = AUTO_MODE;
+                if (!AVAILABLE_MODES[nextMode]){
+                    nextMode = getNextMode(nextMode);
+                }
+                break;
+            default:
+                nextMode = NONEXSISTING_MODE;
+        }
+        return nextMode;
     }
 
     // Commands methods

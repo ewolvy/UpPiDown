@@ -14,6 +14,8 @@ import android.widget.Toast;
 import java.util.Objects;
 import com.mooo.ewolvy.uppidown.AARemotes.*;
 
+import static com.mooo.ewolvy.uppidown.R.string.dry;
+
 public class MainActivity extends AppCompatActivity{
 
     AASuper state;
@@ -70,67 +72,80 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void modeClick(View view) {
-        TextView modeView;
-        switch (state.getMode()){
-            case AASuper.AUTO_MODE:
-                modeView = (TextView) findViewById(R.id.autoMode);
-                if (modeView != null) {
-                    modeView.setVisibility(View.INVISIBLE);
-                }
-                modeView = (TextView) findViewById(R.id.coolMode);
-                if (modeView != null) {
-                    modeView.setVisibility(View.VISIBLE);
-                    state.setMode(AASuper.COOL_MODE);
-                }
-                break;
+        View modeView;
+        int actualMode = state.getMode();
+        int nextMode = state.getNextMode(actualMode);
 
-            case AASuper.COOL_MODE:
-                modeView = (TextView) findViewById(R.id.coolMode);
-                if (modeView != null) {
-                    modeView.setVisibility(View.INVISIBLE);
-                }
-                modeView = (TextView) findViewById(R.id.dryMode);
-                if (modeView != null) {
-                    modeView.setVisibility(View.VISIBLE);
-                    state.setMode(AASuper.DRY_MODE);
-                }
-                break;
+        if (nextMode != AASuper.NONEXSISTING_MODE) {
+            switch (actualMode) {
+                case AASuper.AUTO_MODE:
+                    modeView = findViewById(R.id.autoMode);
+                    if (modeView != null) {
+                        modeView.setVisibility(View.INVISIBLE);
+                    }
+                    break;
 
-            case AASuper.DRY_MODE:
-                modeView = (TextView) findViewById(R.id.dryMode);
-                if (modeView != null) {
-                    modeView.setVisibility(View.INVISIBLE);
-                }
-                modeView = (TextView) findViewById(R.id.heatMode);
-                if (modeView != null) {
-                    modeView.setVisibility(View.VISIBLE);
-                    state.setMode(AASuper.HEAT_MODE);
-                }
-                break;
+                case AASuper.COOL_MODE:
+                    modeView = findViewById(R.id.coolMode);
+                    if (modeView != null) {
+                        modeView.setVisibility(View.INVISIBLE);
+                    }
+                    break;
 
-            case AASuper.HEAT_MODE:
-                modeView = (TextView) findViewById(R.id.heatMode);
-                if (modeView != null) {
-                    modeView.setVisibility(View.INVISIBLE);
-                }
-                modeView = (TextView) findViewById(R.id.fanMode);
-                if (modeView != null) {
-                    modeView.setVisibility(View.VISIBLE);
-                    state.setMode(AASuper.FAN_MODE);
-                }
-                break;
+                case AASuper.DRY_MODE:
+                    modeView = findViewById(R.id.dryMode);
+                    if (modeView != null) {
+                        modeView.setVisibility(View.INVISIBLE);
+                    }
+                    break;
 
-            case AASuper.FAN_MODE:
-                modeView = (TextView) findViewById(R.id.fanMode);
-                if (modeView != null) {
-                    modeView.setVisibility(View.INVISIBLE);
-                }
-                modeView = (TextView) findViewById(R.id.autoMode);
-                if (modeView != null) {
-                    modeView.setVisibility(View.VISIBLE);
-                    state.setMode(AASuper.AUTO_MODE);
-                }
-                break;
+                case AASuper.HEAT_MODE:
+                    modeView = findViewById(R.id.heatMode);
+                    if (modeView != null) {
+                        modeView.setVisibility(View.INVISIBLE);
+                    }
+                    break;
+
+                case AASuper.FAN_MODE:
+                    modeView = findViewById(R.id.fanMode);
+                    if (modeView != null) {
+                        modeView.setVisibility(View.INVISIBLE);
+                    }
+                    break;
+            }
+            switch (nextMode) {
+                case AASuper.AUTO_MODE:
+                    modeView = findViewById(R.id.autoMode);
+                    if (modeView != null) {
+                        modeView.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case AASuper.COOL_MODE:
+                    modeView = findViewById(R.id.coolMode);
+                    if (modeView != null) {
+                        modeView.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case AASuper.DRY_MODE:
+                    modeView = findViewById(R.id.dryMode);
+                    if (modeView != null) {
+                        modeView.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case AASuper.HEAT_MODE:
+                    modeView = findViewById(R.id.heatMode);
+                    if (modeView != null) {
+                        modeView.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case AASuper.FAN_MODE:
+                    modeView = findViewById(R.id.fanMode);
+                    if (modeView != null) {
+                        modeView.setVisibility(View.VISIBLE);
+                    }
+                    break;
+            }
+            state.setMode(nextMode);
         }
     }
 
