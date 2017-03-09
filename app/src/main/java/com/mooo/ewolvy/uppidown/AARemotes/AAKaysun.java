@@ -16,7 +16,8 @@ public class AAKaysun extends AASuper {
 
     public AAKaysun(int stateMode,
                     int stateFan,
-                    int stateTemp){
+                    int stateTemp,
+                    boolean stateOn){
         super();
 
         TEMP_MIN = 17;
@@ -29,7 +30,7 @@ public class AAKaysun extends AASuper {
             setMode (AUTO_MODE);
         }
 
-        isOn = false;
+        isOn = stateOn;
         activeFan = (getMode() != AUTO_MODE) && (getMode() != DRY_MODE);
         activeTemp = getMode() != FAN_MODE;
 

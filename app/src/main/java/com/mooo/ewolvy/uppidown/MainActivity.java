@@ -37,11 +37,6 @@ public class MainActivity extends AppCompatActivity{
             port = 0;
         }
 
-        // Create AAKaysun object to manage the AA
-        state = new AAKaysun(AASuper.AUTO_MODE,         // Modo automático
-                AASuper.AUTO_FAN,                       // Ventilador automático
-                27);                                    // 27 grados
-
         // If preferences are not set ask the user to set them, else create the SSLServer object to manage it
         if (Objects.equals(address, "") || port == 0 || Objects.equals(username, "") || Objects.equals(password, "")) {
             myServer = null;
@@ -50,6 +45,35 @@ public class MainActivity extends AppCompatActivity{
         }else {
             myServer = new SSLServer(address, port, username, password);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putInt("mode", state.getMode());
+        editor.putInt("fan", state.getFan());
+        editor.putInt("temperature", state.getCurrentTemp());
+        editor.putBoolean("on", state.getIsOn());
+        editor.apply();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        int mode = sharedPrefs.getInt("mode", 99);
+        int fan = sharedPrefs.getInt("fan", 99);
+        int temperature = sharedPrefs.getInt("temperature", 99);
+        boolean isOn = sharedPrefs.getBoolean("on", false);
+
+        // Create AAKaysun object to manage the AA with the preferences (if there was no preference, it will go to default)
+        state = new AAKaysun(mode,
+                fan,
+                temperature,
+                isOn);
+        updateView();
     }
 
     @Override
@@ -249,6 +273,62 @@ public class MainActivity extends AppCompatActivity{
         }else{
             Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.is_off_message), Toast.LENGTH_LONG);
             toast.show();
+        }
+    }
+
+    public void updateView(){
+
+        // Put all modes invisible, then set visible the active one
+        findViewById(R.id.autoMode).setVisibility(View.INVISIBLE);
+        findViewById(R.id.coolMode).setVisibility(View.INVISIBLE);
+        findViewById(R.id.dryMode).setVisibility(View.INVISIBLE);
+        findViewById(R.id.heatMode).setVisibility(View.INVISIBLE);
+        findViewById(R.id.fanMode).setVisibility(View.INVISIBLE);
+        switch (state.getMode()){
+            case AASuper.AUTO_MODE:
+                findViewById(R.id.autoMode).setVisibility(View.VISIBLE);
+                break;
+            case AASuper.COOL_MODE:
+                findViewById(R.id.coolMode).setVisibility(View.VISIBLE);
+                break;
+            case AASuper.DRY_MODE:
+                findViewById(R.id.dryMode).setVisibility(View.VISIBLE);
+                break;
+            case AASuper.HEAT_MODE:
+                findViewById(R.id.heatMode).setVisibility(View.VISIBLE);
+                break;
+            case AASuper.FAN_MODE:
+                findViewById(R.id.fanMode).setVisibility(View.VISIBLE);
+                break;
+        }
+
+        // Set on/off sign visible if its on, invisible if not
+        if (state.getIsOn()) {
+            findViewById(R.id.onOffSign).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.onOffSign).setVisibility(View.INVISIBLE);
+        }
+
+        // Set temperature text
+        TextView tempView = (TextView) findViewById(R.id.tempView);
+        String temperature = Integer.toString(state.getCurrentTemp());
+        if (tempView != null) tempView.setText (temperature);
+
+        // Put all fan levels invisible, then set visible the active one(s)
+        findViewById(R.id.fanLevel1).setVisibility(View.INVISIBLE);
+        findViewById(R.id.fanLevel2).setVisibility(View.INVISIBLE);
+        findViewById(R.id.fanLevel3).setVisibility(View.INVISIBLE);
+        findViewById(R.id.fanLevelAuto).setVisibility(View.INVISIBLE);
+        switch (state.getFan()){
+            case AASuper.AUTO_FAN:
+                findViewById(R.id.fanLevelAuto).setVisibility(View.VISIBLE);
+                break;
+            case AASuper.LEVEL3_FAN:
+                findViewById(R.id.fanLevel3).setVisibility(View.VISIBLE);
+            case AASuper.LEVEL2_FAN:
+                findViewById(R.id.fanLevel2).setVisibility(View.VISIBLE);
+            case AASuper.LEVEL1_FAN:
+                findViewById(R.id.fanLevel1).setVisibility(View.VISIBLE);
         }
     }
 }
