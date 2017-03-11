@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mooo.ewolvy.rpiaaremote.MainActivity">
+    tools:context="com.mooo.ewolvy.uppidown.MainActivity">
 
     <LinearLayout
         android:id="@+id/modeListLayout"
@@ -163,20 +163,33 @@
         android:visibility="visible" />
 
     <ImageView
-        android:id="@+id/onOffButton"
+        android:id="@+id/sendButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_below="@id/fanShowCurrent"
+        android:layout_toStartOf="@id/offButton"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="60dp"
+        android:contentDescription="@string/send_description"
+        android:onClick="sendClick"
+        android:src="@drawable/send" />
+    <ImageView
+        android:id="@+id/OffButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/sendButton"
         android:contentDescription="@string/onoff_description"
-        android:onClick="onOffClick"
-        android:src="@drawable/onoff_off"
+        android:onClick="offClick"
+        android:src="@drawable/off"
         android:layout_below="@id/fanShowCurrent" />
     <ImageView
         android:id="@+id/swingButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_toEndOf="@id/onOffButton"
-        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/OffButton"
+        android:layout_marginTop="30dp"
         android:layout_below="@id/fanShowCurrent"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/swing_description"
@@ -186,7 +199,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_toEndOf="@id/swingButton"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="30dp"
         android:layout_below="@id/fanShowCurrent"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/fan"
@@ -197,7 +210,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_toEndOf="@id/fanButton"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="30dp"
         android:layout_below="@id/fanShowCurrent"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/mode_description"
