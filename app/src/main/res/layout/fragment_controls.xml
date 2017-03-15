@@ -120,7 +120,6 @@
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
         android:text="@string/sign_fan"
-        android:textAllCaps="true"
         android:visibility="invisible" />
     <TextView
         android:id="@+id/fanLevel2"
@@ -133,7 +132,6 @@
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
         android:text="@string/sign_fan"
-        android:textAllCaps="true"
         android:visibility="invisible" />
     <TextView
         android:id="@+id/fanLevel3"
@@ -146,7 +144,6 @@
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
         android:text="@string/sign_fan"
-        android:textAllCaps="true"
         android:visibility="invisible" />
     <TextView
         android:id="@+id/fanLevelAuto"
@@ -163,77 +160,20 @@
         android:visibility="visible" />
 
     <ImageView
-        android:id="@+id/sendButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_below="@id/fanShowCurrent"
-        android:layout_toStartOf="@id/offButton"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="60dp"
-        android:contentDescription="@string/send_description"
-        android:onClick="sendClick"
-        android:src="@drawable/send" />
-    <ImageView
-        android:id="@+id/OffButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_toEndOf="@id/sendButton"
-        android:contentDescription="@string/onoff_description"
-        android:onClick="offClick"
-        android:src="@drawable/off"
-        android:layout_below="@id/fanShowCurrent" />
-    <ImageView
-        android:id="@+id/swingButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_toEndOf="@id/OffButton"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/fanShowCurrent"
-        android:layout_marginStart="8dp"
-        android:contentDescription="@string/swing_description"
-        android:src="@drawable/swing" />
-    <ImageView
-        android:id="@+id/fanButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_toEndOf="@id/swingButton"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/fanShowCurrent"
-        android:layout_marginStart="8dp"
-        android:contentDescription="@string/fan"
-        android:onClick="fanClick"
-        android:src="@drawable/fan"/>
-    <ImageView
-        android:id="@+id/modeButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_toEndOf="@id/fanButton"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/fanShowCurrent"
-        android:layout_marginStart="8dp"
-        android:contentDescription="@string/mode_description"
-        android:onClick="modeClick"
-        android:src="@drawable/mode" />
-
-    <ImageView
         android:id="@+id/tempPlus"
         android:layout_width="96dp"
         android:layout_height="32dp"
-        android:layout_toEndOf="@id/fanLevelAuto"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_below="@id/fanShowCurrent"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="48dp"
         android:contentDescription="@string/tempplus_description"
-        android:onClick="tempPlusClick"
         android:src="@drawable/temp_plus"/>
     <ImageView
         android:id="@+id/tempMiddle"
         android:layout_width="96dp"
         android:layout_height="32dp"
         android:layout_below="@id/tempPlus"
-        android:layout_toEndOf="@id/fanLevelAuto"
-        android:layout_marginStart="32dp"
+        android:layout_centerInParent="true"
         android:contentDescription="@string/temp_description"
         android:src="@drawable/temp_middle"/>
     <ImageView
@@ -241,9 +181,58 @@
         android:layout_width="96dp"
         android:layout_height="32dp"
         android:layout_below="@id/tempMiddle"
-        android:layout_toEndOf="@id/fanLevelAuto"
-        android:layout_marginStart="32dp"
+        android:layout_centerInParent="true"
         android:contentDescription="@string/tempminus_description"
-        android:onClick="tempMinusClick"
         android:src="@drawable/temp_minus"/>
+
+    <ImageView
+        android:id="@+id/fanButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_toEndOf="@id/tempMiddle"
+        android:layout_alignBottom="@id/tempMinus"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="48dp"
+        android:contentDescription="@string/fan"
+        android:src="@drawable/fan"/>
+    <ImageView
+        android:id="@+id/modeButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_toStartOf="@id/tempMiddle"
+        android:layout_alignBottom="@id/tempMinus"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="48dp"
+        android:contentDescription="@string/mode_description"
+        android:src="@drawable/mode" />
+
+    <ImageView
+        android:id="@+id/offButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/tempMinus"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:contentDescription="@string/off_description"
+        android:src="@drawable/off" />
+    <ImageView
+        android:id="@+id/sendButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/tempMinus"
+        android:layout_toStartOf="@id/offButton"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="48dp"
+        android:contentDescription="@string/send_description"
+        android:src="@drawable/send" />
+    <ImageView
+        android:id="@+id/swingButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/tempMinus"
+        android:layout_toEndOf="@id/offButton"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:contentDescription="@string/swing_description"
+        android:src="@drawable/swing" />
 </RelativeLayout>
