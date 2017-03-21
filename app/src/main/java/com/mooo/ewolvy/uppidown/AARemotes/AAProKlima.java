@@ -21,7 +21,7 @@ public class AAProKlima extends AASuper{
         // Indicar que todos los modos están disponibles
         for (int x = 0; x<5; x++){AVAILABLE_MODES[x] = true;}
         // Para pruebas deshabilitar un modo
-        AVAILABLE_MODES[2] = false;
+        // AVAILABLE_MODES[2] = false;
 
         if (!setMode(stateMode)){
             setMode (AUTO_MODE);

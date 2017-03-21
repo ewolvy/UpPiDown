@@ -3,6 +3,7 @@ package com.mooo.ewolvy.uppidown;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 public class MainActivity extends AppCompatActivity{
 
     Spinner spinner;
+    int selectedAA = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +40,37 @@ public class MainActivity extends AppCompatActivity{
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                ControlsFragment frag = (ControlsFragment) getSupportFragmentManager().findFragmentById(R.id.controlsFragment);
-                frag.updateView();
+                // If position was changed replace the fragment
+                if (position != selectedAA){
+                    ControlsFragment newFragment = new ControlsFragment();
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.mainLayout, newFragment);
+                    transaction.commit();
+                    selectedAA = position;
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
+            }
+        });
+
+        if (findViewById(R.id.mainLayout) != null) {
+
+            // If we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
             }
 
-        });
+            // Create a new Fragment to be placed in the activity layout
+            ControlsFragment controlsFragment = new ControlsFragment();
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.mainLayout, controlsFragment).commit();
+        }
     }
 
     @Override
