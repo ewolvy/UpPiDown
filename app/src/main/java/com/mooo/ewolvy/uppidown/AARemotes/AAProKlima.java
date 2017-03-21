@@ -10,8 +10,9 @@ public class AAProKlima extends AASuper{
     private final String[] MODES = {"AUTO", "COOL", "DRY", "HEAT", "FAN"};
 
     public AAProKlima(int stateMode,
-                    int stateFan,
-                    int stateTemp){
+                      int stateFan,
+                      int stateTemp,
+                      boolean stateOn){
         super();
 
         TEMP_MIN = 18;
@@ -19,12 +20,14 @@ public class AAProKlima extends AASuper{
 
         // Indicar que todos los modos están disponibles
         for (int x = 0; x<5; x++){AVAILABLE_MODES[x] = true;}
+        // Para pruebas deshabilitar un modo
+        AVAILABLE_MODES[2] = false;
 
         if (!setMode(stateMode)){
             setMode (AUTO_MODE);
         }
 
-        isOn = false;
+        isOn = stateOn;
         activeFan = (getMode() != AUTO_MODE) && (getMode() != DRY_MODE);
         activeTemp = getMode() != FAN_MODE;
 

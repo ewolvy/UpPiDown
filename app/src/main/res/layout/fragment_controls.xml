@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mooo.ewolvy.uppidown.MainActivity">
+    tools:context="com.mooo.ewolvy.uppidown.MainActivity"
+    android:id="@+id/controlsFragment">
 
     <LinearLayout
         android:id="@+id/modeListLayout"
@@ -235,4 +236,5 @@
         android:layout_marginTop="48dp"
         android:contentDescription="@string/swing_description"
         android:src="@drawable/swing" />
+
 </RelativeLayout>

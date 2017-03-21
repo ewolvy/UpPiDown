@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mooo.ewolvy.uppidown.AARemotes.AAKaysun;
 import com.mooo.ewolvy.uppidown.AARemotes.AASuper;
+import com.mooo.ewolvy.uppidown.AARemotes.AAKaysun;
+import com.mooo.ewolvy.uppidown.AARemotes.AAProKlima;
 
 import java.util.Objects;
 
@@ -50,6 +52,7 @@ public class ControlsFragment extends Fragment {
         }else {
             myServer = new SSLServer(address, port, username, password);
         }
+
         // Inflate the layout for this fragment
         fragView = inflater.inflate(R.layout.fragment_controls, container, false);
 
@@ -105,6 +108,7 @@ public class ControlsFragment extends Fragment {
 
         return fragView;
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -126,11 +130,28 @@ public class ControlsFragment extends Fragment {
         int temperature = sharedPrefs.getInt("temperature", 99);
         boolean isOn = sharedPrefs.getBoolean("on", false);
 
-        // Create AAKaysun object to manage the AA with the preferences (if there was no preference, it will go to default)
-        state = new AAKaysun(mode,
-                fan,
-                temperature,
-                isOn);
+        // Create AA object to manage the AA with the preferences (if there was no preference, it will go to default)
+        Spinner spinner = (Spinner) getActivity().findViewById(R.id.aaSpinner);
+        int position;
+        if (spinner != null) {
+            position = spinner.getSelectedItemPosition();
+        }else{
+            position = 0;
+        }
+        switch (position){
+            case 0:
+                state = new AAKaysun(mode,
+                        fan,
+                        temperature,
+                        isOn);
+                break;
+            case 1:
+                state = new AAProKlima(mode,
+                        fan,
+                        temperature,
+                        isOn);
+                break;
+        }
         updateView();
     }
 

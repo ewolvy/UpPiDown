@@ -1,7 +1,5 @@
 package com.mooo.ewolvy.uppidown.AARemotes;
 
-import static com.mooo.ewolvy.uppidown.R.string.auto;
-
 public abstract class AASuper {
     // Constants
     public static final int AUTO_MODE = 0;
@@ -47,7 +45,9 @@ public abstract class AASuper {
     public void setOn (boolean on){this.isOn = on;}
 
     public boolean setMode(int mode) {
-        if (mode < AUTO_MODE || mode > FAN_MODE){
+        if (mode < AUTO_MODE || mode > FAN_MODE) {
+            return false;
+        }else if (!AVAILABLE_MODES[mode]){
             return false;
         }else{
             this.activeFan = mode != AUTO_MODE && mode != DRY_MODE;

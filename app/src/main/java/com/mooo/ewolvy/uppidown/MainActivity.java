@@ -8,21 +8,25 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-import java.util.Objects;
-import com.mooo.ewolvy.uppidown.AARemotes.*;
 
 public class MainActivity extends AppCompatActivity{
+
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Spinner spinner = (Spinner) findViewById(R.id.aaSpinner);
+
+        // Get Activity specific options (spinner selected item)
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        int selectedItem = sharedPrefs.getInt("selectedItem", 0);
+
+        // Setup the spinner
+        spinner = (Spinner) findViewById(R.id.aaSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.AAArray, android.R.layout.simple_spinner_item);
@@ -30,6 +34,37 @@ public class MainActivity extends AppCompatActivity{
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+        spinner.setSelection(selectedItem);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                ControlsFragment frag = (ControlsFragment) getSupportFragmentManager().findFragmentById(R.id.controlsFragment);
+                frag.updateView();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putInt("selectedItem", spinner.getSelectedItemPosition());
+        editor.apply();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        int selectedItem = sharedPrefs.getInt("selectedItem", 0);
+        spinner.setSelection(selectedItem);
     }
 
     @Override
