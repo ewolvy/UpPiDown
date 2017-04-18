@@ -20,6 +20,7 @@ public abstract class AASuper {
     boolean AVAILABLE_MODES[] = new boolean[5];
 
     // Variables
+    String serverPath;
     boolean isOn;
     int currentMode;
     int currentFan;
@@ -32,6 +33,8 @@ public abstract class AASuper {
     }
 
     // Setters and getters methods for variables //
+    public String getServerPath(){return serverPath;}
+
     public boolean getIsOn(){return isOn;}
 
     public int getMode() {

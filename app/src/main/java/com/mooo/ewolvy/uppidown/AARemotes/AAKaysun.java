@@ -17,11 +17,14 @@ public class AAKaysun extends AASuper {
     public AAKaysun(int stateMode,
                     int stateFan,
                     int stateTemp,
-                    boolean stateOn){
+                    boolean stateOn,
+                    String statePath){
         super();
 
         TEMP_MIN = 17;
         TEMP_MAX = 30;
+
+        serverPath = statePath;
 
         // Indicar que todos los modos están disponibles
         for (int x = 0; x<5; x++){AVAILABLE_MODES[x] = true;}

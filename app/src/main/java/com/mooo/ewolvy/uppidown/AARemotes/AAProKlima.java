@@ -12,11 +12,13 @@ public class AAProKlima extends AASuper{
     public AAProKlima(int stateMode,
                       int stateFan,
                       int stateTemp,
-                      boolean stateOn){
+                      boolean stateOn,
+                      String statePath){
         super();
 
         TEMP_MIN = 18;
         TEMP_MAX = 32;
+        serverPath = statePath;
 
         // Indicar que todos los modos están disponibles
         for (int x = 0; x<5; x++){AVAILABLE_MODES[x] = true;}

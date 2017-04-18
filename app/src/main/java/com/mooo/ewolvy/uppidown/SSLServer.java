@@ -123,7 +123,9 @@ class SSLServer {
             fullAddress = address;
             fullAddress = fullAddress + ":";
             fullAddress = fullAddress + port;
-            fullAddress = fullAddress + "/sendcode/";
+            fullAddress = fullAddress + "/";
+            fullAddress = fullAddress + currentAAState.getServerPath();
+            fullAddress = fullAddress + "/";
             fullAddress = fullAddress + codeToSend;
         }
 
