@@ -107,9 +107,9 @@ class SSLServer {
 
     void sendCode(String code, Context context, AASuper aaState, ImageView iv){
         codeToSend = code;
+        currentAAState = aaState;
         doConnection connection = new doConnection();
         connection.execute(context);
-        currentAAState = aaState;
         onOffSign = iv;
     }
 
