@@ -32,7 +32,7 @@
     <string name="auto">Auto</string>
 
     <string-array name="AAArray">
-        <item>Kaysun</item>
-        <item>ProKlima</item>
+        <item>Salón</item>
+        <item>Dormitorio</item>
     </string-array>
 </resources>
