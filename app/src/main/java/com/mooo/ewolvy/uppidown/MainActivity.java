@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    // Add function for the layout parameters for the fragment
     public RelativeLayout.LayoutParams fetchLayoutParams() {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
