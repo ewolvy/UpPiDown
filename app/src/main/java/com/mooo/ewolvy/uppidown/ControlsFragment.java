@@ -106,6 +106,8 @@ public class ControlsFragment extends Fragment {
             }
         });
 
+        fragView.setLayoutParams(((MainActivity) getActivity()).fetchLayoutParams());
+
         return fragView;
     }
 

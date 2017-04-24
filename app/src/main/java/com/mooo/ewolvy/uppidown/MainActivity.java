@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity{
@@ -71,6 +72,15 @@ public class MainActivity extends AppCompatActivity{
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.mainLayout, controlsFragment).commit();
         }
+    }
+
+    public RelativeLayout.LayoutParams fetchLayoutParams() {
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+
+        // We can add any rule available for RelativeLayout and hence can position accordingly
+        params.addRule(RelativeLayout.BELOW, spinner.getId());
+        return params;
     }
 
     @Override
