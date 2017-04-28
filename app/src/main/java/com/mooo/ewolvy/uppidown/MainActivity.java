@@ -24,7 +24,38 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Get Activity specific options (spinner selected item)
+        spinnerSetup ();
+
+        if (findViewById(R.id.mainLayout) != null) {
+
+            // If we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            // Create a new Fragment to be placed in the activity layout
+            ControlsFragment controlsFragment = new ControlsFragment();
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.mainLayout, controlsFragment).commit();
+        }
+    }
+
+    // Add function to add the layout parameters for the fragment
+    public RelativeLayout.LayoutParams fetchLayoutParams() {
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+
+        // We can add any rule available for RelativeLayout and hence can position accordingly
+        params.addRule(RelativeLayout.BELOW, spinner.getId());
+        return params;
+    }
+
+    protected void spinnerSetup(){
+        // Get options of the spinner selected item)
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         int selectedItem = sharedPrefs.getInt("selectedItem", 0);
 
@@ -55,33 +86,6 @@ public class MainActivity extends AppCompatActivity{
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
-
-        if (findViewById(R.id.mainLayout) != null) {
-
-            // If we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
-            }
-
-            // Create a new Fragment to be placed in the activity layout
-            ControlsFragment controlsFragment = new ControlsFragment();
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.mainLayout, controlsFragment).commit();
-        }
-    }
-
-    // Add function for the layout parameters for the fragment
-    public RelativeLayout.LayoutParams fetchLayoutParams() {
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-
-        // We can add any rule available for RelativeLayout and hence can position accordingly
-        params.addRule(RelativeLayout.BELOW, spinner.getId());
-        return params;
     }
 
     @Override

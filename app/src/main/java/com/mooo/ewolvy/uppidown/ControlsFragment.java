@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,28 +31,6 @@ public class ControlsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Read the preferences or set default parameters
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String address = sharedPrefs.getString(getString(R.string.settings_address_key), "");
-        String port_str = sharedPrefs.getString(getString(R.string.settings_port_key), "0");
-        String username = sharedPrefs.getString(getString(R.string.settings_username_key), "");
-        String password = sharedPrefs.getString(getString(R.string.settings_password_key), "");
-        int port;
-        try {
-            port = Integer.parseInt(port_str);
-        } catch(NumberFormatException nfe) {
-            port = 0;
-        }
-
-        // If preferences are not set ask the user to set them, else create the SSLServer object to manage it
-        if (Objects.equals(address, "") || port == 0 || Objects.equals(username, "") || Objects.equals(password, "")) {
-            myServer = null;
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
-            toast.show();
-        }else {
-            myServer = new SSLServer(address, port, username, password);
-        }
-
         // Inflate the layout for this fragment
         fragView = inflater.inflate(R.layout.fragment_controls, container, false);
 
@@ -112,6 +89,30 @@ public class ControlsFragment extends Fragment {
         return fragView;
     }
 
+    private void sslServerSetup(){
+        // Read the preferences or set default parameters
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String address = sharedPrefs.getString(getString(R.string.settings_address_key), "");
+        String port_str = sharedPrefs.getString(getString(R.string.settings_port_key), "0");
+        String username = sharedPrefs.getString(getString(R.string.settings_username_key), "");
+        String password = sharedPrefs.getString(getString(R.string.settings_password_key), "");
+        int port;
+        try {
+            port = Integer.parseInt(port_str);
+        } catch(NumberFormatException nfe) {
+            port = 0;
+        }
+
+        // If preferences are not set ask the user to set them, else create the SSLServer object to manage it
+        if (Objects.equals(address, "") || port == 0 || Objects.equals(username, "") || Objects.equals(password, "")) {
+            myServer = null;
+            Toast toast = Toast.makeText(getActivity().getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
+            toast.show();
+        }else {
+            myServer = new SSLServer(address, port, username, password);
+        }
+    }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -127,6 +128,8 @@ public class ControlsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        sslServerSetup();
+
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int mode = sharedPrefs.getInt("mode", 99);
         int fan = sharedPrefs.getInt("fan", 99);
